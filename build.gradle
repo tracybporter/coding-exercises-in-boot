@@ -1,0 +1,59 @@
+buildscript {
+  ext {
+    springBootVersion = '2.0.3.RELEASE'
+  }
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+  }
+}
+
+apply plugin: 'groovy'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.phg'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+  mavenCentral()
+}
+
+
+dependencies {
+  compile('org.springframework.boot:spring-boot-starter-actuator')
+  compile('org.springframework.boot:spring-boot-starter-data-rest')
+  compile('org.springframework.boot:spring-boot-starter-hateoas')
+  compile('org.codehaus.groovy:groovy')
+
+
+  testCompile 'cglib:cglib-nodep:3.2.4'
+  testCompile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
+  testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
+  testCompile 'org.spockframework:spock-spring:1.1-groovy-2.4'
+  testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+sourceSets {
+  acceptancetest {
+    groovy.srcDir file('src/blackboxtest/groovy')
+    resources.srcDir file('src/blackboxtest/resources')
+    compileClasspath += sourceSets.test.compileClasspath
+    runtimeClasspath += sourceSets.test.runtimeClasspath
+  }
+}
+
+tasks.withType(Test) {
+  testLogging {
+    afterSuite { desc, result ->
+      if (!desc.parent) { // will match the outermost suite
+        def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+        def startItem = '|  ', endItem = '  |'
+        def repeatLength = startItem.length() + output.length() + endItem.length()
+        println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
+      }
+    }
+  }
+}
