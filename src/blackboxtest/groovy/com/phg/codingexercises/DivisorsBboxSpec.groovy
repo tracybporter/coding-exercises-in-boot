@@ -24,7 +24,7 @@ class DivisorsBboxSpec extends Specification {
     List results = response.data.'results'
     results.size() == 1
     Map factorsFor12 = results.find { it.input == 12 }
-    factorsFor12.prime == [1, 2, 2, 3] as int[]
+    factorsFor12.prime == [2, 2, 3]
 //    factorsFor12.all == [1, 2, 3, 4, 6, 12] as int[]
   }
 }

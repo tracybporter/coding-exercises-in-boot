@@ -4,9 +4,15 @@ import groovy.transform.EqualsAndHashCode
 
 @EqualsAndHashCode()
 class PageResult {
-    List results
+  List results
 
-    public PageResult(List results = []) {
-        this.results = results
-    }
+  public PageResult(List results = []) {
+    this.results = results
+  }
+}
+
+@EqualsAndHashCode()
+class FactorResult {
+  int input
+  List prime
 }
