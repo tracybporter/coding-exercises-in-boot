@@ -6,7 +6,15 @@ import org.springframework.stereotype.Service
 class FactoringService {
 
   PageResult calculatePrime(String input) {
-    throw new RuntimeException('not yet implemented')
+    PageResult pageResult = new PageResult()
+    List inputs = input.tokenize(',')
+
+    inputs.each { String individualInput ->
+      if (individualInput.isInteger()) {
+        pageResult.results << calculatePrime(individualInput as int).results[0]
+      }
+    }
+    pageResult
   }
 
   PageResult calculatePrime(int input) {

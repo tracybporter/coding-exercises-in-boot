@@ -5,9 +5,10 @@ import spock.lang.Unroll
 
 @Unroll
 class FactoringServiceSpec extends Specification {
-  def 'returns PageResults with all prime factors for #input'() {
+  FactoringService service = new FactoringService()
+
+  def 'returns PageResults with all prime factors for single #input'() {
     given:
-    FactoringService service = new FactoringService()
     PageResult expected = new PageResult(results: [new FactorResult(input: input, prime: expectedPrimeFactors)])
 
     when:
@@ -30,10 +31,7 @@ class FactoringServiceSpec extends Specification {
   }
 
   @Unroll
-  def 'returns empty prime list when value is #input'() {
-    given:
-    FactoringService service = new FactoringService()
-
+  def 'returns empty prime list when value is single #input'() {
     when:
     PageResult actual = service.calculatePrime(input)
 
@@ -44,5 +42,44 @@ class FactoringServiceSpec extends Specification {
 
     where:
     input << [1, 0, -1]
+  }
+
+  def 'returns PageResults with list of prime factors for "21,39"'() {
+    when:
+    PageResult actual = service.calculatePrime('21, 39')
+
+    then:
+    actual.results.size() == 2
+    actual.results[0].input == 21
+    actual.results[0].prime == [3, 7]
+
+    actual.results[1].input == 39
+    actual.results[1].prime == [3, 13]
+  }
+
+  def 'ignores empty single value when for ",,21,"'() {
+    when:
+    PageResult actual = service.calculatePrime('21, ')
+
+    then:
+    actual.results.size() == 1
+    actual.results[0].input == 21
+    actual.results[0].prime == [3, 7]
+  }
+
+  def 'ignores empty single value when for "21,,,39, 1"'() {
+    when:
+    PageResult actual = service.calculatePrime('21,,,39, 1')
+
+    then:
+    actual.results.size() == 3
+    actual.results[0].input == 21
+    actual.results[0].prime == [3, 7]
+
+    actual.results[1].input == 39
+    actual.results[1].prime == [3, 13]
+
+    actual.results[2].input == 1
+    actual.results[2].prime == []
   }
 }
