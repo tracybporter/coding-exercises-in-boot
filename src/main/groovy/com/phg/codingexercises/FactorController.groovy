@@ -13,7 +13,11 @@ class FactorController {
   FactoringService service
 
   @GetMapping("/{input}")
-  PageResult retrievePrimeFactorsForSingleInput(@PathVariable int input) {
-    service.calculatePrime(input)
+  PageResult retrievePrimeFactorsForSingleInput(@PathVariable String input) {
+    if (input.isInteger()) {
+      service.calculatePrime(input as Integer)
+    } else {
+      service.calculatePrime(input)
+    }
   }
 }

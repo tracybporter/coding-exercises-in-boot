@@ -4,6 +4,11 @@ import org.springframework.stereotype.Service
 
 @Service
 class FactoringService {
+
+  PageResult calculatePrime(String input) {
+    throw new RuntimeException('not yet implemented')
+  }
+
   PageResult calculatePrime(int input) {
     FactorResult result = new FactorResult(input: input, prime: [])
 

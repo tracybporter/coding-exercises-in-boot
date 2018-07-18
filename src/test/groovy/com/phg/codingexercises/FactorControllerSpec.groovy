@@ -2,6 +2,7 @@ package com.phg.codingexercises
 
 import org.springframework.test.web.servlet.MockMvc
 import spock.lang.Specification
+import spock.lang.Unroll
 
 import static org.springframework.http.HttpStatus.OK
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
@@ -20,13 +21,17 @@ class FactorControllerSpec extends Specification {
     mockMvc = standaloneSetup(factorController).build()
   }
 
-  def 'factor controller delegates to the service for prime factors'() {
+  @Unroll
+  def 'factor controller delegates to the service for #input'() {
     when:
-    def response = mockMvc.perform(get('/api/v1/factors/16')).andReturn().response
+    def response = mockMvc.perform(get("/api/v1/factors/$input")).andReturn().response
 
     then:
-    1 * mockFactoringService.calculatePrime(16) >> new PageResult()
+    1 * mockFactoringService.calculatePrime(input) >> new PageResult()
     response.status == OK.value
     response.getContentAsString() == '{"results":[]}'
+
+    where:
+    input << [16, '16,17']
   }
 }
