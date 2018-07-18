@@ -14,16 +14,35 @@ class FactoringServiceSpec extends Specification {
     PageResult actual = service.calculatePrime(input)
 
     then:
+    actual.results.size() == 1
+    actual.results[0].input == input
     actual.results[0].prime == expected.results[0].prime
 
     where:
     input | expectedPrimeFactors
+    2     | [1, 2]
     4     | [2, 2]
     9     | [3, 3]
     16    | [2, 2, 2, 2]
+    17    | [1, 17]
     39    | [3, 13]
     221   | [13, 17]
-    2     | [1, 2]
-    17    | [1, 17]
+  }
+
+  @Unroll
+  def 'returns empty prime list when value is #input'() {
+    given:
+    FactoringService service = new FactoringService()
+
+    when:
+    PageResult actual = service.calculatePrime(input)
+
+    then:
+    actual.results.size() == 1
+    actual.results[0].input == input
+    actual.results[0].prime == []
+
+    where:
+    input << [1, 0, -1]
   }
 }
