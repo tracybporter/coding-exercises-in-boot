@@ -10,6 +10,7 @@ Inspired by a problem on codeliity to provide the greatest common factor (diviso
 I chose to version the api and I chose to respond with hetergeneous objects in the results list. I am not sure I love this design.
 
 I chose to calcualte the greatest common factor by   
+
 0. first computing all the prime factors for each input, 
 0. then gathering the intersection of these lists and 
 0. finally computing the product of the remaining values.
@@ -36,6 +37,7 @@ Intellij: Right click on the application and select run.
 These are run as part of the the gradle build target: `./gradlew clean build`
 
 ## Blackbox (Acceptance)
-I have not yet automated the running of these as a gradle target (nor as part of the build)   
+I have not yet automated the running of these as a gradle target (nor as part of the build)  
+ 
 0. Start the application
 0. Intellij - run the test manually
