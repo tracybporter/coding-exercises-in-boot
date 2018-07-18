@@ -13,7 +13,7 @@ I chose to calcualte the greatest common factor by
 
 1. first computing all the prime factors for each input, 
 1. then gathering the intersection of these lists and 
-1. finally computing the product of the remaining values.
+1. finally computing the product of the remaining prime factors.
 
 You could reasonably argue this is a silly approach, but mostly it worked and is fairly readable (at least 10 minutes after writing the tests and code). The FUN part was working around how java/grooy calculates intersections between two lists.
 ~~~~
