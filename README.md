@@ -11,9 +11,9 @@ I chose to version the api and I chose to respond with hetergeneous objects in t
 
 I chose to calcualte the greatest common factor by   
 
-0. first computing all the prime factors for each input, 
-0. then gathering the intersection of these lists and 
-0. finally computing the product of the remaining values.
+1. first computing all the prime factors for each input, 
+1. then gathering the intersection of these lists and 
+1. finally computing the product of the remaining values.
 
 You could reasonably argue this is a silly approach, but mostly it worked and is fairly readable (at least 10 minutes after writing the tests and code). The FUN part was working around how java/grooy calculates intersections between two lists.
 ~~~~
@@ -39,5 +39,5 @@ These are run as part of the the gradle build target: `./gradlew clean build`
 ## Blackbox (Acceptance)
 I have not yet automated the running of these as a gradle target (nor as part of the build)  
  
-0. Start the application
-0. Intellij - run the test manually
+1. Start the application
+1. Intellij - run the test manually
