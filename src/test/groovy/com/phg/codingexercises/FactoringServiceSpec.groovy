@@ -49,7 +49,7 @@ class FactoringServiceSpec extends Specification {
     PageResult actual = service.calculatePrime('21, 39')
 
     then:
-    actual.results.size() == 2
+    actual.results.size() >= 2
     actual.results[0].input == 21
     actual.results[0].prime == [3, 7]
 
@@ -62,7 +62,7 @@ class FactoringServiceSpec extends Specification {
     PageResult actual = service.calculatePrime('21, ')
 
     then:
-    actual.results.size() == 1
+    actual.results.input.size() == 1
     actual.results[0].input == 21
     actual.results[0].prime == [3, 7]
   }
@@ -72,7 +72,7 @@ class FactoringServiceSpec extends Specification {
     PageResult actual = service.calculatePrime('21,,,39, 1')
 
     then:
-    actual.results.size() == 3
+    actual.results.size() >= 3
     actual.results[0].input == 21
     actual.results[0].prime == [3, 7]
 
@@ -81,5 +81,21 @@ class FactoringServiceSpec extends Specification {
 
     actual.results[2].input == 1
     actual.results[2].prime == []
+  }
+
+  @Unroll
+  def 'calculates GCF when #inputs results in value #gcf'() {
+    when:
+    PageResult actual = service.calculatePrime(inputs)
+
+    then:
+    actual.results.size() == 3
+    actual.results[2].greatestCommonFactor == gcf
+
+    where:
+    inputs  | gcf
+    '2,4'   | 2
+    '12,20' | 4
+    '3,5'   | 1
   }
 }

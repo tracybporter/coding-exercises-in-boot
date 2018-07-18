@@ -5,6 +5,10 @@ import org.springframework.stereotype.Service
 @Service
 class FactoringService {
 
+  def productOfEntries = { result, i ->
+    result * i
+  }
+
   PageResult calculatePrime(String input) {
     PageResult pageResult = new PageResult()
     List inputs = input.tokenize(',')
@@ -13,6 +17,13 @@ class FactoringService {
       if (individualInput.isInteger()) {
         pageResult.results << calculatePrime(individualInput as int).results[0]
       }
+    }
+
+    if (pageResult.results.size() > 1) {
+      List commonPrimeFactors = gatherCommonPrimeFactors(pageResult.results.prime)
+
+      int gcf = calculateProduct(commonPrimeFactors)
+      pageResult.results << [greatestCommonFactor: gcf]
     }
     pageResult
   }
@@ -36,5 +47,36 @@ class FactoringService {
       result.prime << divisor.intValue()
       findNextFactor((input / divisor) as int, result)
     }
+  }
+
+  private List gatherCommonPrimeFactors(List<List> primeLists) {
+    List gcfValues
+    gcfValues = primeLists[0]
+
+    (0..(primeLists.size() - 1)).each { int index ->
+      if (gcfValues.intersect(primeLists[index]).size() > primeLists[index].intersect(gcfValues).size()) {
+        gcfValues = primeLists[index].intersect(gcfValues)
+      } else {
+        gcfValues = gcfValues.intersect(primeLists[index])
+      }
+    }
+    gcfValues
+  }
+
+  private int calculateProduct(List<Integer> gcfValues) {
+    if (gcfValues == null || gcfValues.size() == 0) {
+      return 0
+    }
+
+    if (gcfValues.size() == 1) {
+      return gcfValues[0]
+    }
+
+    int product = 1
+    gcfValues.each { factor ->
+      product = product * factor
+    }
+
+    product
   }
 }
