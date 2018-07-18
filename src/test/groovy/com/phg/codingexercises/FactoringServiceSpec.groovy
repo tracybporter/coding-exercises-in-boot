@@ -89,13 +89,14 @@ class FactoringServiceSpec extends Specification {
     PageResult actual = service.calculatePrime(inputs)
 
     then:
-    actual.results.size() == 3
-    actual.results[2].greatestCommonFactor == gcf
+    actual.results.size() >= 3
+    actual.results.last().greatestCommonFactor == gcf
 
     where:
-    inputs  | gcf
-    '2,4'   | 2
-    '12,20' | 4
-    '3,5'   | 1
+    inputs       | gcf
+    '2,4'        | 2
+    '12,20'      | 4
+    '3,5'        | 1
+    '5,10,15,20' | 5
   }
 }

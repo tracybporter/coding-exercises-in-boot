@@ -21,7 +21,6 @@ class FactoringService {
 
     if (pageResult.results.size() > 1) {
       List commonPrimeFactors = gatherCommonPrimeFactors(pageResult.results.prime)
-
       int gcf = calculateProduct(commonPrimeFactors)
       pageResult.results << [greatestCommonFactor: gcf]
     }
