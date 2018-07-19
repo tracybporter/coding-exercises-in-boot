@@ -21,4 +21,5 @@ class FactorResult {
 class GcfLcmResult {
   String type = 'aggregate'
   int greatestCommonFactor
+  int leastCommonMultiple
 }

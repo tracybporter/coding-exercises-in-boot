@@ -100,4 +100,22 @@ class FactoringServiceSpec extends Specification {
     '5,10,15,20' | 5
     '5,10,11'    | 1
   }
+
+  @Unroll
+  def 'calculates LCM when #inputs results in value #lcm'() {
+    when:
+    PageResult actual = service.calculatePrime(inputs)
+
+    then:
+    actual.results.size() >= 3
+    actual.results.find { it.type == 'aggregate' && it.leastCommonMultiple == lcm }
+
+    where:
+    inputs       | lcm
+    '2,4'        | 4
+    '12,20'      | 60
+    '3,5'        | 15
+    '5,10,15,20' | 120
+    '5,10,11'    | 110
+  }
 }
