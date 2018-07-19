@@ -24,6 +24,7 @@ class FactoringServiceSpec extends Specification {
     1 * new PrimeNumberCalculator([2]) >> mockPrimeNumberCalculator
     1 * mockPrimeNumberCalculator.retrievePrimeFactors(2) >> [9]
     0 * mockPrimeNumberCalculator.calculateGreatestCommonFactor()
+    0 * mockPrimeNumberCalculator.calculateLeastCommonMultiple()
     actual.results.size() == 1
     actual.results[0].input == 2
     actual.results[0].prime == [9]
@@ -41,6 +42,7 @@ class FactoringServiceSpec extends Specification {
     1 * mockPrimeNumberCalculator.retrievePrimeFactors(21) >> [91, 0]
     1 * mockPrimeNumberCalculator.retrievePrimeFactors(39) >> [91, 11]
     1 * mockPrimeNumberCalculator.calculateGreatestCommonFactor() >> 6
+    1 * mockPrimeNumberCalculator.calculateLeastCommonMultiple() >> 88
     actual.results.size() == 3
     actual.results[0].input == 21
     actual.results[0].prime == [91, 0]
@@ -49,6 +51,7 @@ class FactoringServiceSpec extends Specification {
     actual.results[1].prime == [91, 11]
 
     actual.results[2].greatestCommonFactor == 6
+    actual.results[2].leastCommonMultiple == 88
   }
 
   def 'ignores empty single value when for ",,21,"'() {
@@ -62,6 +65,7 @@ class FactoringServiceSpec extends Specification {
     1 * new PrimeNumberCalculator([21]) >> mockPrimeNumberCalculator
     1 * mockPrimeNumberCalculator.retrievePrimeFactors(21) >> [1]
     0 * mockPrimeNumberCalculator.calculateGreatestCommonFactor()
+    0 * mockPrimeNumberCalculator.calculateLeastCommonMultiple()
     actual.results.size() == 1
   }
 
@@ -78,10 +82,12 @@ class FactoringServiceSpec extends Specification {
     1 * mockPrimeNumberCalculator.retrievePrimeFactors(39) >> [0]
     1 * mockPrimeNumberCalculator.retrievePrimeFactors(1) >> []
     1 * mockPrimeNumberCalculator.calculateGreatestCommonFactor() >> 601
+    1 * mockPrimeNumberCalculator.calculateLeastCommonMultiple() >> 777
     actual.results.size() == 4
     actual.results[0].input == 21
     actual.results[1].input == 39
     actual.results[2].input == 1
     actual.results[3].greatestCommonFactor == 601
+    actual.results[3].leastCommonMultiple == 777
   }
 }

@@ -25,7 +25,9 @@ class FactoringService {
     }
 
     if (pageResult.results.size() > 1) {
-      pageResult.results << new GcfLcmResult(greatestCommonFactor: primeNumberCalculator.calculateGreatestCommonFactor())
+      pageResult.results << new GcfLcmResult(
+              greatestCommonFactor: primeNumberCalculator.calculateGreatestCommonFactor(),
+              leastCommonMultiple: primeNumberCalculator.calculateLeastCommonMultiple())
     }
     pageResult
   }

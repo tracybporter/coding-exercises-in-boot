@@ -18,6 +18,6 @@ class PageResultSpec extends Specification {
     String json = new ObjectMapper().writeValueAsString(new GcfLcmResult())
 
     then:
-    json == '{"type":"aggregate","greatestCommonFactor":0}'
+    json == '{"type":"aggregate","greatestCommonFactor":0,"leastCommonMultiple":0}'
   }
 }
