@@ -13,6 +13,12 @@ class PageResult {
 
 @EqualsAndHashCode()
 class FactorResult {
+  String type = 'individual'
   int input
   List prime
+}
+
+class GcfLcmResult {
+  String type = 'aggregate'
+  int greatestCommonFactor
 }
