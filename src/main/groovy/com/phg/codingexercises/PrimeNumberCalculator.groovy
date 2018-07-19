@@ -3,12 +3,17 @@ package com.phg.codingexercises
 class PrimeNumberCalculator {
   List inputs
   Map<Integer, List> inputWithPrimeFactors = new HashMap<>()
+  List<List> primeLists
+  List gcfList
+  int lcm
 
   PrimeNumberCalculator(List inputs) {
     this.inputs = inputs
     inputs.each { input ->
       inputWithPrimeFactors << [(input): calculatePrime(input)]
     }
+    gatherCommonPrimeFactors()
+    primeLists = inputWithPrimeFactors.collect { it.value }
   }
 
   List retrievePrimeFactors(int input) {
@@ -16,7 +21,7 @@ class PrimeNumberCalculator {
   }
 
   Integer calculateGreatestCommonFactor() {
-    calculateProduct(gatherCommonPrimeFactors())
+    calculateProduct(gcfList)
   }
 
   List calculatePrime(int input) {
@@ -52,21 +57,42 @@ class PrimeNumberCalculator {
         gcfValues = gcfValues.intersect(primeLists[index])
       }
     }
-    gcfValues
+    this.gcfList = gcfValues
   }
 
-  private int calculateProduct(List<Integer> gcfValues) {
-    if (gcfValues == null || gcfValues.size() == 0) {
+  Integer calculateLeastCommonMultiple() {
+    if (lcm > 0) return lcm
+
+    List allUniqueFactors = primeLists.collect { it }.flatten().unique() - 1
+
+    Map lcmFactorsWithMaxExponent = [:]
+
+    allUniqueFactors.each { factor ->
+      lcmFactorsWithMaxExponent << [(factor): 1]
+      primeLists.each { primeFactors ->
+        lcmFactorsWithMaxExponent[factor] = Math.max(primeFactors.count(factor), lcmFactorsWithMaxExponent[factor])
+      }
+    }
+
+    lcm = 1
+    lcmFactorsWithMaxExponent.each { lcmFactor ->
+      lcm = lcm * lcmFactor.key**lcmFactor.value
+    }
+    lcm
+  }
+
+  private int calculateProduct(List<Integer> integers) {
+    if (integers == null || integers.size() == 0) {
       return 1
     }
 
-    if (gcfValues.size() == 1) {
-      return gcfValues[0]
+    if (integers.size() == 1) {
+      return integers[0]
     }
 
     int product = 1
-    gcfValues.each { factor ->
-      product = product * factor
+    integers.each { value ->
+      product = product * value
     }
 
     product

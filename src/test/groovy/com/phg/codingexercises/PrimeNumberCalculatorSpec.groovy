@@ -24,6 +24,18 @@ class PrimeNumberCalculatorSpec extends Specification {
     221   | [13, 17]
   }
 
+  void 'returns prime factors for each input'() {
+    when:
+    PrimeNumberCalculator calculator = new PrimeNumberCalculator([5, 10, 15, 20, 45])
+
+    then:
+    calculator.retrievePrimeFactors(5) == [1, 5]
+    calculator.retrievePrimeFactors(10) == [2, 5]
+    calculator.retrievePrimeFactors(15) == [3, 5]
+    calculator.retrievePrimeFactors(20) == [2, 2, 5]
+    calculator.retrievePrimeFactors(45) == [3, 3, 5]
+  }
+
   @Unroll
   def 'returns empty prime list when value is single #input'() {
     when:
@@ -51,5 +63,24 @@ class PrimeNumberCalculatorSpec extends Specification {
     [3, 5]          | 1
     [5, 10, 15, 20] | 5
     [5, 10, 11]     | 1
+  }
+
+  @Unroll
+  def 'calculates LCM when #inputs results in value #lcm'() {
+    when:
+    PrimeNumberCalculator calculator = new PrimeNumberCalculator(inputs)
+
+    then:
+    calculator.calculateLeastCommonMultiple() == lcm
+    calculator.calculateLeastCommonMultiple() == lcm //can be called twice
+
+    where:
+    inputs          | lcm
+    [2, 4]          | 4
+    [12, 20]        | 60
+    [3, 5]          | 15
+    [5, 10, 15, 20] | 60
+    [5, 10, 11]     | 110
+    [5, 10, 11, 15] | 330
   }
 }
