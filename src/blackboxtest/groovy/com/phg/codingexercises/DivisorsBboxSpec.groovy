@@ -23,7 +23,8 @@ class DivisorsBboxSpec extends Specification {
     response.data.size() == 1
     List results = response.data.'results'
     results.size() == 1
-    Map factorsFor12 = results.find { it.input == 12 }
+    Map factorsFor12 = results.find {it.type == 'individual' && it.input == 12 }
+    factorsFor12
     factorsFor12.prime == [2, 2, 3]
 
     results.find { it.greatestCommonFactor } == null
@@ -46,12 +47,14 @@ class DivisorsBboxSpec extends Specification {
     response.data.size() == 1
     List results = response.data.'results'
     results.size() == 3
-    Map factorsFor12 = results.find { it.input == 12 }
+    Map factorsFor12 = results.find {it.type == 'individual' && it.input == 12 }
+    factorsFor12
     factorsFor12.prime == [2, 2, 3]
 
-    Map factorsFor20 = results.find { it.input == 20 }
+    Map factorsFor20 = results.find { it.type == 'individual' &&it.input == 20 }
+    factorsFor20
     factorsFor20.prime == [2, 2, 5]
 
-    results.find { it.greatestCommonFactor == 4 }
+    results.find {it.type == 'aggregate' && it.greatestCommonFactor == 4 }
   }
 }
