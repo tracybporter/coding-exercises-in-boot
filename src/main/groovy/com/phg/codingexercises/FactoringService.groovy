@@ -64,7 +64,7 @@ class FactoringService {
 
   private int calculateProduct(List<Integer> gcfValues) {
     if (gcfValues == null || gcfValues.size() == 0) {
-      return 0
+      return 1
     }
 
     if (gcfValues.size() == 1) {

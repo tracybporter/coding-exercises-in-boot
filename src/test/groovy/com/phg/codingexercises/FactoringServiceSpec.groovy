@@ -90,7 +90,7 @@ class FactoringServiceSpec extends Specification {
 
     then:
     actual.results.size() >= 3
-    actual.results.find{it.type == 'aggregate' && it.greatestCommonFactor == gcf}
+    actual.results.find { it.type == 'aggregate' && it.greatestCommonFactor == gcf }
 
     where:
     inputs       | gcf
@@ -98,5 +98,6 @@ class FactoringServiceSpec extends Specification {
     '12,20'      | 4
     '3,5'        | 1
     '5,10,15,20' | 5
+    '5,10,11'    | 1
   }
 }
