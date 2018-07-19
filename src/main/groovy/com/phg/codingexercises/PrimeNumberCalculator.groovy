@@ -2,19 +2,22 @@ package com.phg.codingexercises
 
 class PrimeNumberCalculator {
   List inputs
+  Map<Integer, List> inputWithPrimeFactors = new HashMap<>()
 
   PrimeNumberCalculator(List inputs) {
     this.inputs = inputs
+    inputs.each { input ->
+      inputWithPrimeFactors << [(input): calculatePrime(input)]
+    }
   }
 
   List retrievePrimeFactors(int input) {
-    calculatePrime(input)
+    inputWithPrimeFactors[input]
   }
 
   Integer calculateGreatestCommonFactor() {
-    throw new RuntimeException('not implemented yet')
+    calculateProduct(gatherCommonPrimeFactors())
   }
-
 
   List calculatePrime(int input) {
     List primeFactors = []
@@ -37,7 +40,8 @@ class PrimeNumberCalculator {
     }
   }
 
-  private List gatherCommonPrimeFactors(List<List> primeLists) {
+  private List gatherCommonPrimeFactors() {
+    List<List> primeLists = inputWithPrimeFactors.collect { it.value }
     List gcfValues
     gcfValues = primeLists[0]
 

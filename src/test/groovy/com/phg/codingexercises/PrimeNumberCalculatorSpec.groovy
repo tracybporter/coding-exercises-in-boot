@@ -45,11 +45,11 @@ class PrimeNumberCalculatorSpec extends Specification {
     calculator.calculateGreatestCommonFactor() == gcf
 
     where:
-    inputs         | gcf
-    [2, 4]         | 2
-    [12, 20]       | 4
-    [3, 5]         | 1
-    [5, 10, 15, 2] | 5
-    [5, 10, 11]    | 1
+    inputs          | gcf
+    [2, 4]          | 2
+    [12, 20]        | 4
+    [3, 5]          | 1
+    [5, 10, 15, 20] | 5
+    [5, 10, 11]     | 1
   }
 }
