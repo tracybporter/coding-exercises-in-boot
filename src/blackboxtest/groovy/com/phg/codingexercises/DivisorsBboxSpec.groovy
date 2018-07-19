@@ -23,14 +23,14 @@ class DivisorsBboxSpec extends Specification {
     response.data.size() == 1
     List results = response.data.'results'
     results.size() == 1
-    Map factorsFor12 = results.find {it.type == 'individual' && it.input == 12 }
+    Map factorsFor12 = results.find { it.type == 'individual' && it.input == 12 }
     factorsFor12
     factorsFor12.prime == [2, 2, 3]
 
     results.find { it.greatestCommonFactor } == null
   }
 
-  def 'factor endpoint returns prime factors for a list and greatest common factor of all values'() {
+  def 'factor endpoint returns prime factors for a list and greatest common factor and least common multiple of all values'() {
     given:
     RESTClient restClient = new RESTClient('http://localhost:8080')
 
@@ -46,15 +46,17 @@ class DivisorsBboxSpec extends Specification {
 
     response.data.size() == 1
     List results = response.data.'results'
+
     results.size() == 3
-    Map factorsFor12 = results.find {it.type == 'individual' && it.input == 12 }
+    Map factorsFor12 = results.find { it.type == 'individual' && it.input == 12 }
     factorsFor12
     factorsFor12.prime == [2, 2, 3]
 
-    Map factorsFor20 = results.find { it.type == 'individual' &&it.input == 20 }
+    Map factorsFor20 = results.find { it.type == 'individual' && it.input == 20 }
     factorsFor20
     factorsFor20.prime == [2, 2, 5]
 
-    results.find {it.type == 'aggregate' && it.greatestCommonFactor == 4 }
+    results.find { it.type == 'aggregate' && it.greatestCommonFactor == 2 * 2 }
+    results.find { it.type == 'aggregate' && it.leastCommonMultiple == 4 * 3 * 5 }
   }
 }
