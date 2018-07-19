@@ -28,6 +28,7 @@ class DivisorsBboxSpec extends Specification {
     factorsFor12.prime == [2, 2, 3]
 
     results.find { it.greatestCommonFactor } == null
+    results.find { it.leastCommonMultiple } == null
   }
 
   def 'factor endpoint returns prime factors for a list and greatest common factor and least common multiple of all values'() {
