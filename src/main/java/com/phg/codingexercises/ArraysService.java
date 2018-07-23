@@ -9,10 +9,8 @@ import java.util.List;
 @Service
 public class ArraysService {
   public PageResult calculateAbsoluteMinimumOfSums(ArraysInput inputs) {
+
     ArraysCalculator calculator = constructCalculator(inputs);
-
-    PageResult result = new PageResult();
-
     List results = new ArrayList();
     results.add(
             new HashMap<String, Object>() {
@@ -22,6 +20,8 @@ public class ArraysService {
                 put("value", calculator.retrieveMinimumAbsoluteSum());
               }
             });
+
+    PageResult result = new PageResult();
     result.setResults(results);
     return result;
   }
