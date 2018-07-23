@@ -27,6 +27,15 @@ Result: [3, 3]
 
 So I used a bit of hackery to get the work done.
 
+# Array Fiddling (Java 8 practice)- Minimum absolute sum value within list of integers
+The primary purpose for this task was to reaquaint myself with Java 8. Executive Summary: Use 8 lines of code when groovy could do it in one expressive statement.
+
+Codility provided the basic problem: Given an array of integers find the minimum of all the absolute sums between the elements.
+
+My solution is none too clever. Ultimately it is nested loop with the saved minimum value. I was sad to find Java 8's foreach with a lambda would not allow a non-final variable within the nested loop. I did not tinker with it very long so it could very well be my mistake.
+
+I included no defensive programming. If the user passes in anything but an array of integers it will likely blow up.
+
 # Running the Application
 Terminal window: `./gradlew bootRun`
 
