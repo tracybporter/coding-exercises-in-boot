@@ -7,12 +7,12 @@ import static org.springframework.http.HttpStatus.OK
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup
 
-class NumberControllerSpec extends Specification {
-  NumberController controller
+class JavaTestControllerSpec extends Specification {
+  JavaTestController controller
   MockMvc mockMvc
 
   def setup() {
-    controller = new NumberController()
+    controller = new JavaTestController()
     mockMvc = standaloneSetup(controller).build()
   }
 
