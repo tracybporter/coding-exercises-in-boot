@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-public class NumberController {
+public class JavaTestController {
 
   @GetMapping("/javaController/health")
   public Map<String, String> returnHealthOfJavaCompilation() {
