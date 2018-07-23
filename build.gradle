@@ -37,6 +37,10 @@ dependencies {
   testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 sourceSets {
+  main {
+    java { srcDirs = [] }
+    groovy { srcDirs = ["src/main/java", "src/main/groovy"] }
+  }
   acceptancetest {
     groovy.srcDir file('src/blackboxtest/groovy')
     resources.srcDir file('src/blackboxtest/resources')
