@@ -1,18 +1,14 @@
 package com.phg.codingexercises
 
 import groovyx.net.http.HttpResponseDecorator
-import groovyx.net.http.RESTClient
 import spock.lang.Specification
 
-
 class DivisorsBboxSpec extends Specification {
+  SutRestClient systemUnderTest = new SutRestClient()
 
   def 'basic factor endpoint returns prime factors for single integer'() {
-    given:
-    RESTClient restClient = new RESTClient('http://localhost:8080')
-
     when:
-    HttpResponseDecorator response = restClient.get(
+    HttpResponseDecorator response = systemUnderTest.get(
             path: '/api/v1/factors/12',
             headers: ['Accept': 'application/json']
     )
@@ -32,11 +28,8 @@ class DivisorsBboxSpec extends Specification {
   }
 
   def 'factor endpoint returns prime factors for a list and greatest common factor and least common multiple of all values'() {
-    given:
-    RESTClient restClient = new RESTClient('http://localhost:8080')
-
     when:
-    HttpResponseDecorator response = restClient.get(
+    HttpResponseDecorator response = systemUnderTest.get(
             path: '/api/v1/factors/12,20',
             headers: ['Accept': 'application/json']
     )

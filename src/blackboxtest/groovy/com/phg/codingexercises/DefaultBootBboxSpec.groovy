@@ -1,20 +1,14 @@
 package com.phg.codingexercises
 
 import groovyx.net.http.HttpResponseDecorator
-import groovyx.net.http.RESTClient
 import spock.lang.Specification
 
 class DefaultBootBboxSpec extends Specification {
-  RESTClient restClient
-
-  void setup() {
-    restClient = new RESTClient('http://localhost:8080')
-    restClient.handler.failure = restClient.handler.success
-  }
+  SutRestClient systemUnderTest = new SutRestClient()
 
   def 'actuator endpoint returns standard boot links'() {
     when:
-    HttpResponseDecorator response = restClient.get(
+    HttpResponseDecorator response = systemUnderTest.get(
             path: '/actuator',
             headers: ['Accept': 'application/json']
     )
@@ -36,7 +30,7 @@ class DefaultBootBboxSpec extends Specification {
 
   def 'confirm java controller works'() {
     when:
-    HttpResponseDecorator response = restClient.get(
+    HttpResponseDecorator response = systemUnderTest.get(
             path: '/javaController/health',
             headers: ['Accept': 'application/json']
     )
