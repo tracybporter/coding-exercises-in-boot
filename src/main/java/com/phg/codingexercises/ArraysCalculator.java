@@ -25,4 +25,8 @@ public class ArraysCalculator {
     }
     return minAbsoluteSum;
   }
+
+  public SublistInformation gatherSublistsWithMinimizedSum() {
+    throw new RuntimeException("not yet implemented");
+  }
 }

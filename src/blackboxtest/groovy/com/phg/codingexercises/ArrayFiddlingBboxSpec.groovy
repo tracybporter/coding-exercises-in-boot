@@ -53,7 +53,8 @@ class ArrayFiddlingBboxSpec extends Specification {
     results[0].type == 'aggregate'
     results[0].calculation == 'subsets minimize sum for requested subset count'
     results[0].originalList == [2, 1, 5, 1, 2, 2, 2]
+    results[0].requestedSublistCount == 3
     results[0].minimizedSum == 6
-    results[0].subsets == [[2, 1], [5, 1], 2, 2, 2]
+    results[0].sublists == [[2, 1], [5, 1], 2, 2, 2]
   }
 }

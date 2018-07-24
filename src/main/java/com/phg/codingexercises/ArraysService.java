@@ -27,11 +27,29 @@ public class ArraysService {
     return result;
   }
 
-  public ArraysCalculator constructCalculator(ArraysInput inputs) {
-    return new ArraysCalculator(inputs);
+  public PageResult findSubsetsWithMinimizedSum(ArraysInput inputs) {
+    ArraysCalculator calculator = constructCalculator(inputs);
+    SublistInformation sublistInfo = calculator.gatherSublistsWithMinimizedSum();
+    List results = new ArrayList();
+    results.add(
+            new HashMap<String, Object>() {
+              {
+                put("type", "aggregate");
+                put("calculation", "subsets minimize sum for requested subset count");
+                put("originalList", inputs.getInputs());
+                put("requestedSublistCount", inputs.getNumberOfSublists());
+                put("minimizedSum", sublistInfo.getMinimizedSum());
+                put("sublists", sublistInfo.getSublists());
+              }
+            });
+
+    PageResult result = new PageResult();
+    result.setResults(results);
+    return result;
+
   }
 
-  public PageResult findSubsetsWithMinimizedSum(ArraysInput inputs) {
-    throw new RuntimeException("not yet implemented");
+  public ArraysCalculator constructCalculator(ArraysInput inputs) {
+    return new ArraysCalculator(inputs);
   }
 }
