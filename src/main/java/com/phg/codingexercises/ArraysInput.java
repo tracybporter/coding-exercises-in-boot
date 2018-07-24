@@ -3,9 +3,9 @@ package com.phg.codingexercises;
 
 import java.util.List;
 
-
 public class ArraysInput {
   private List<Integer> inputs;
+  private int numberOfSublists;
 
   public ArraysInput() {
   }
@@ -21,4 +21,13 @@ public class ArraysInput {
   public void setInputs(List<Integer> inputs) {
     this.inputs = inputs;
   }
+
+  public int getNumberOfSublists() {
+    return numberOfSublists;
+  }
+
+  public void setNumberOfSublists(int numberOfSublists) {
+    this.numberOfSublists = numberOfSublists;
+  }
+
 }

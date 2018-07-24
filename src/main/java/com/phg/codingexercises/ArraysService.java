@@ -30,4 +30,8 @@ public class ArraysService {
   public ArraysCalculator constructCalculator(ArraysInput inputs) {
     return new ArraysCalculator(inputs);
   }
+
+  public PageResult findSubsetsWithMinimizedSum(ArraysInput inputs) {
+    throw new RuntimeException("not yet implemented");
+  }
 }
