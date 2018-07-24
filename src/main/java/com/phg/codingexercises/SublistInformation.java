@@ -1,10 +1,11 @@
 package com.phg.codingexercises;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SublistInformation {
   private int minimizedSum;
-  private List<List<Integer>> sublists;
+  private List<List<Integer>> sublists = new ArrayList<>();
 
   public int getMinimizedSum() {
     return minimizedSum;

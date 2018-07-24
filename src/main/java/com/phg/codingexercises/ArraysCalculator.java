@@ -1,12 +1,15 @@
 package com.phg.codingexercises;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class ArraysCalculator {
   private List<Integer> elements;
+  private Integer requestedSublistCount;
 
   public ArraysCalculator(ArraysInput inputs) {
     elements = inputs.getInputs();
+    requestedSublistCount = inputs.getNumberOfSublists();
   }
 
   public Integer retrieveMinimumAbsoluteSum() {
@@ -27,6 +30,17 @@ public class ArraysCalculator {
   }
 
   public SublistInformation gatherSublistsWithMinimizedSum() {
-    throw new RuntimeException("not yet implemented");
+    SublistInformation sublistInfo = new SublistInformation();
+    sublistInfo.setMinimizedSum(-1);
+
+    if (elements.size() == requestedSublistCount) {
+      elements.forEach(input -> {
+        sublistInfo.getSublists().add(Arrays.asList(input));
+        if (sublistInfo.getMinimizedSum() < input) {
+          sublistInfo.setMinimizedSum(input);
+        }
+      });
+    }
+    return sublistInfo;
   }
 }

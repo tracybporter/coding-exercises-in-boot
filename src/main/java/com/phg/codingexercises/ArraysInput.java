@@ -10,8 +10,13 @@ public class ArraysInput {
   public ArraysInput() {
   }
 
-  public ArraysInput(List<Integer> integers) {
+  public ArraysInput(Integer numberOfSublists, List<Integer> integers) {
+    this.numberOfSublists = numberOfSublists == null ? 0 : numberOfSublists;
     inputs = integers;
+  }
+
+  public ArraysInput(List<Integer> integers) {
+    this(null, integers);
   }
 
   public List<Integer> getInputs() {
