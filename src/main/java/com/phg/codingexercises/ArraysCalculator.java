@@ -31,9 +31,13 @@ public class ArraysCalculator {
 
   public SublistInformation gatherSublistsWithMinimizedSum() {
     SublistInformation sublistInfo = new SublistInformation();
-    sublistInfo.setMinimizedSum(-1);
+    if (requestedSublistCount == 1) {
+      sublistInfo.setSublists(Arrays.asList(elements));
+      sublistInfo.setMinimizedSum(elements.stream().reduce(0, (x, y) -> x + y));
+    }
 
     if (elements.size() == requestedSublistCount) {
+      sublistInfo.setMinimizedSum(-1);
       elements.forEach(input -> {
         sublistInfo.getSublists().add(Arrays.asList(input));
         if (sublistInfo.getMinimizedSum() < input) {
@@ -41,6 +45,7 @@ public class ArraysCalculator {
         }
       });
     }
+
     return sublistInfo;
   }
 }

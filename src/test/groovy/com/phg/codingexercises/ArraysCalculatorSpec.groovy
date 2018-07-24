@@ -3,13 +3,14 @@ package com.phg.codingexercises
 import spock.lang.Specification
 
 class ArraysCalculatorSpec extends Specification {
-  void 'construct sets the elements'(){
+  void 'construct sets the elements'() {
     expect:
     new ArraysCalculator(new ArraysInput(inputs: [5])).elements == [5]
   }
- void 'construct sets the requested sublist count'(){
+
+  void 'construct sets the requested sublist count'() {
     expect:
-    new ArraysCalculator(new ArraysInput(numberOfSublists:9)).requestedSublistCount == 9
+    new ArraysCalculator(new ArraysInput(numberOfSublists: 9)).requestedSublistCount == 9
   }
 
   void 'iterates over array and calculates sums'() {
@@ -42,5 +43,17 @@ class ArraysCalculatorSpec extends Specification {
     then:
     result.minimizedSum == 3
     result.sublists[[1], [2], [3]]
+  }
+
+  void 'return sublists when requested count is 1'() {
+    given:
+    ArraysCalculator calculator = new ArraysCalculator(new ArraysInput(1, [1, 2, 3]))
+
+    when:
+    SublistInformation result = calculator.gatherSublistsWithMinimizedSum()
+
+    then:
+    result.sublists[[1, 2, 3]]
+    result.minimizedSum == 6
   }
 }
