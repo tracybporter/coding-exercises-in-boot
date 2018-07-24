@@ -34,7 +34,7 @@ class ArraysCalculatorSpec extends Specification {
     [-12, 8, 100] | 4
   }
 
-  void 'return sublists when requested count matches the number of elements'() {
+  void 'return each element in own sublists when requested count matches the number of elements'() {
     given:
     ArraysCalculator calculator = new ArraysCalculator(new ArraysInput(3, [1, 2, 3]))
 
@@ -43,7 +43,20 @@ class ArraysCalculatorSpec extends Specification {
 
     then:
     result.minimizedSum == 3
-    result.sublists[[1], [2], [3]]
+    result.sublists == [[1], [2], [3]]
+  }
+
+
+  void 'return each element in own sublists plus trailing empty when requested count matches the number of elements'() {
+    given:
+    ArraysCalculator calculator = new ArraysCalculator(new ArraysInput(4, [1, 2, 3]))
+
+    when:
+    SublistInformation result = calculator.gatherSublistsWithMinimizedSum()
+
+    then:
+    result.minimizedSum == 3
+    result.sublists == [[1], [2], [3], []]
   }
 
   void 'return sublists when requested count is 1'() {
@@ -59,9 +72,9 @@ class ArraysCalculatorSpec extends Specification {
   }
 
   @Unroll
-  void 'four elements return sublists of #expectedSublists when requestedCount=#requestedCount'() {
+  void '#inputArray return sublists of #expectedSublists when requestedCount=#requestedCount'() {
     given:
-    ArraysCalculator calculator = new ArraysCalculator(new ArraysInput(requestedCount, [1, 6, 3, 1]))
+    ArraysCalculator calculator = new ArraysCalculator(new ArraysInput(requestedCount, inputArray))
 
     when:
     SublistInformation result = calculator.gatherSublistsWithMinimizedSum()
@@ -71,9 +84,13 @@ class ArraysCalculatorSpec extends Specification {
     result.minimizedSum == expectedMinimizedSum
 
     where:
-    requestedCount | expectedSublists   | expectedMinimizedSum
-    2              | [[1, 6], [3, 1]]   | 7
-    3              | [[1], [6], [3, 1]] | 6
-    4              | [[1], [6], [3, 1]] | 6
+    requestedCount | inputArray   | expectedSublists   | expectedMinimizedSum
+    2              | [1, 6, 3, 1] | [[1, 6], [3, 1]]   | 7                      //count > requested && max cannot be isolated in own list
+    2              | [1, 3, 6, 1] | [[1, 3], [6, 1]]   | 7
+    2              | [1, 3, 1, 6] | [[1, 3, 1], [6]]   | 6                      //count > requested && max can be in own list and sum of other list less
+
+    3              | [1, 6, 3, 1] | [[1], [6], [3, 1]] | 6
+    3              | [1, 3, 1, 6] | [[1, 3], [1], [6]] | 6
+
   }
 }

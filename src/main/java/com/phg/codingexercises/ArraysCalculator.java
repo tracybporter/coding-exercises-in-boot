@@ -1,7 +1,9 @@
 package com.phg.codingexercises;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class ArraysCalculator {
   private List<Integer> elements;
@@ -38,7 +40,7 @@ public class ArraysCalculator {
       return sublistInfo;
     }
 
-    if (elements.size() == requestedSublistCount) {
+    if (elements.size() <= requestedSublistCount) {
       sublistInfo.setMinimizedSum(-1);
       elements.forEach(input -> {
         sublistInfo.getSublists().add(Arrays.asList(input));
@@ -46,9 +48,10 @@ public class ArraysCalculator {
           sublistInfo.setMinimizedSum(input);
         }
       });
+      IntStream.range(0, (requestedSublistCount - elements.size())).forEach(i -> sublistInfo.getSublists().add(new ArrayList()));
+
       return sublistInfo;
     }
-
 
 
     return sublistInfo;
