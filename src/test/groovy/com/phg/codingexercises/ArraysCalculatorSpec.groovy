@@ -1,6 +1,7 @@
 package com.phg.codingexercises
 
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class ArraysCalculatorSpec extends Specification {
   void 'construct sets the elements'() {
@@ -53,7 +54,26 @@ class ArraysCalculatorSpec extends Specification {
     SublistInformation result = calculator.gatherSublistsWithMinimizedSum()
 
     then:
-    result.sublists[[1, 2, 3]]
+    result.sublists == [[1, 2, 3]]
     result.minimizedSum == 6
+  }
+
+  @Unroll
+  void 'four elements return sublists of #expectedSublists when requestedCount=#requestedCount'() {
+    given:
+    ArraysCalculator calculator = new ArraysCalculator(new ArraysInput(requestedCount, [1, 6, 3, 1]))
+
+    when:
+    SublistInformation result = calculator.gatherSublistsWithMinimizedSum()
+
+    then:
+    result.sublists == expectedSublists
+    result.minimizedSum == expectedMinimizedSum
+
+    where:
+    requestedCount | expectedSublists   | expectedMinimizedSum
+    2              | [[1, 6], [3, 1]]   | 7
+    3              | [[1], [6], [3, 1]] | 6
+    4              | [[1], [6], [3, 1]] | 6
   }
 }
