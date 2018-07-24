@@ -17,6 +17,7 @@ public class ArraysService {
               {
                 put("type", "aggregate");
                 put("calculation", "minimumabsolutesum");
+                put("originalList", inputs.getInputs());
                 put("value", calculator.retrieveMinimumAbsoluteSum());
               }
             });

@@ -19,11 +19,13 @@ class ArraysServiceSpec extends Specification {
     PageResult actual = service.calculateAbsoluteMinimumOfSums(mockArraysInput)
 
     then:
+    1 * mockArraysInput.inputs >> [0, 5]
     1 * mockArraysCalculator.retrieveMinimumAbsoluteSum() >> 12
 
     actual.results.size() == 1
     actual.results[0].type == 'aggregate'
     actual.results[0].calculation == 'minimumabsolutesum'
+    actual.results[0].originalList == [0, 5]
     actual.results[0].value == 12
   }
 }

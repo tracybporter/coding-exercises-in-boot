@@ -26,7 +26,34 @@ class ArrayFiddlingBboxSpec extends Specification {
     results.size() == 1
     results[0].type == 'aggregate'
     results[0].calculation == 'minimumabsolutesum'
+    results[0].originalList == [1, 4, -3]
     results[0].value == 1
-//    results[0].elements == [4, -3]
+//    results[0].elements == [4, -3] //If I run out of other stuff to do.
+  }
+
+  void 'parses an ordered list of length N into M sublists such that the largest sum is minimized'() {
+    given:
+    //the original problem also provided the max value within the list but don't think it is all that important
+    Map requestBody = [numberOfSublists: 3, inputs: [2, 1, 5, 1, 2, 2, 2]]
+
+    when:
+    HttpResponseDecorator response = systemUnderTest.post(
+            path: '/api/v1/arrays/parseit',
+            requestContentType: 'application/json',
+            body: requestBody,
+            headers: ['Accept': 'application/json']
+    )
+
+    then:
+    response.status == 200
+    response.headers.'Content-Type' == 'application/json;charset=UTF-8'
+    response.data.size() == 1
+    List results = response.data.'results'
+    results.size() == 1
+    results[0].type == 'aggregate'
+    results[0].calculation == 'subsets minimize sum for requested subset count'
+    results[0].originalList == [2, 1, 5, 1, 2, 2, 2]
+    results[0].maximumSum == 6
+    results[0].subsets == [[2, 1], [5, 1], 2, 2, 2]
   }
 }
