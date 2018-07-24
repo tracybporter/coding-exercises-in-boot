@@ -24,8 +24,8 @@ class ArraysServiceSpec extends Specification {
 
     actual.results.size() == 1
     actual.results[0].type == 'aggregate'
-    actual.results[0].calculation == 'minimumabsolutesum'
+    actual.results[0].calculation == 'minimum absolute sum'
     actual.results[0].originalList == [0, 5]
-    actual.results[0].value == 12
+    actual.results[0].minimizedSum == 12
   }
 }

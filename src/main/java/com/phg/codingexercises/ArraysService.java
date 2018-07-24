@@ -16,9 +16,9 @@ public class ArraysService {
             new HashMap<String, Object>() {
               {
                 put("type", "aggregate");
-                put("calculation", "minimumabsolutesum");
+                put("calculation", "minimum absolute sum");
                 put("originalList", inputs.getInputs());
-                put("value", calculator.retrieveMinimumAbsoluteSum());
+                put("minimizedSum", calculator.retrieveMinimumAbsoluteSum());
               }
             });
 

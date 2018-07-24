@@ -25,9 +25,9 @@ class ArrayFiddlingBboxSpec extends Specification {
     List results = response.data.'results'
     results.size() == 1
     results[0].type == 'aggregate'
-    results[0].calculation == 'minimumabsolutesum'
+    results[0].calculation == 'minimuma bsolute sum'
     results[0].originalList == [1, 4, -3]
-    results[0].value == 1
+    results[0].minimizedSum == 1
 //    results[0].elements == [4, -3] //If I run out of other stuff to do.
   }
 
@@ -53,7 +53,7 @@ class ArrayFiddlingBboxSpec extends Specification {
     results[0].type == 'aggregate'
     results[0].calculation == 'subsets minimize sum for requested subset count'
     results[0].originalList == [2, 1, 5, 1, 2, 2, 2]
-    results[0].maximumSum == 6
+    results[0].minimizedSum == 6
     results[0].subsets == [[2, 1], [5, 1], 2, 2, 2]
   }
 }
