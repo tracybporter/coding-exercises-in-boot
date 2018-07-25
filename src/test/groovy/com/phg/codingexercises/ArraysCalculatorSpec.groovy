@@ -85,9 +85,9 @@ class ArraysCalculatorSpec extends Specification {
 
     where:
     requestedCount | inputArray   | expectedSublists   | expectedMinimizedSum
-    2              | [1, 6, 3, 1] | [[1, 6], [3, 1]]   | 7                      //count > requested && max cannot be isolated in own list
+    2              | [1, 6, 3, 1] | [[1, 6], [3, 1]]   | 7
     2              | [1, 3, 6, 1] | [[1, 3], [6, 1]]   | 7
-    2              | [1, 3, 1, 6] | [[1, 3, 1], [6]]   | 6                      //count > requested && max can be in own list and sum of other list less
+    2              | [1, 3, 1, 6] | [[1, 3, 1], [6]]   | 6
 
     3              | [1, 6, 3, 1] | [[1], [6], [3, 1]] | 6
     3              | [1, 3, 1, 6] | [[1, 3], [1], [6]] | 6
