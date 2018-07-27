@@ -84,13 +84,16 @@ class ArraysCalculatorSpec extends Specification {
     result.minimizedSum == expectedMinimizedSum
 
     where:
-    requestedCount | inputArray   | expectedSublists   | expectedMinimizedSum
-    2              | [1, 6, 3, 1] | [[1, 6], [3, 1]]   | 7
-    2              | [1, 3, 6, 1] | [[1, 3], [6, 1]]   | 7
-    2              | [1, 3, 1, 6] | [[1, 3, 1], [6]]   | 6
+    requestedCount | inputArray      | expectedSublists    | expectedMinimizedSum
+    2              | [1, 6, 3, 1]    | [[1, 6], [3, 1]]    | 7
+    2              | [1, 3, 6, 1]    | [[1, 3], [6, 1]]    | 7
+    2              | [1, 3, 1, 6]    | [[1, 3, 1], [6]]    | 6
+//    2              | [6, 3, 1, 1]    | [[6], [1, 3, 1]]     | 6
+    2              | [1, 6, 3, 1, 6] | [[1, 6], [3, 1, 6]] | 10
 
-    3              | [1, 6, 3, 1] | [[1], [6], [3, 1]] | 6
-    3              | [1, 3, 1, 6] | [[1, 3], [1], [6]] | 6
-
+    3              | [1, 6, 3, 1]    | [[1], [6], [3, 1]]  | 6
+    3              | [1, 3, 6, 1]    | [[1, 3], [6], [1]]  | 6
+    3              | [1, 3, 1, 6]    | [[1, 3], [1], [6]]  | 6
+    3              | [1, 5, 1, 6]    | [[1, 5], [1], [6]]  | 6
   }
 }

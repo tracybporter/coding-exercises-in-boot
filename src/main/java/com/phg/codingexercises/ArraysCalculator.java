@@ -53,29 +53,78 @@ public class ArraysCalculator {
       return sublistInfo;
     }
 
-    int maxInputsValue = Collections.max(elements);
-    int indexOfMax = elements.indexOf(maxInputsValue);
-    List<Integer> firstPart = new ArrayList<>(elements.subList(0, indexOfMax));
-    List<Integer> lastPart = new ArrayList<>(elements.subList(indexOfMax + 1, elements.size()));
+    List<Integer> elements = new ArrayList<>(this.elements);
+    int requestedSublistCount = this.requestedSublistCount;
+    List<List<Integer>> sublists2 = bisectList(elements, requestedSublistCount);
 
-    int sumOfFirstPart = sumItems(firstPart);
-    int sumOfLastPart = sumItems(lastPart);
-
-    if (requestedSublistCount == 2) {
-      if (sumOfFirstPart > sumOfLastPart) {
-        lastPart.add(0, maxInputsValue);
-      } else {
-        firstPart.add(maxInputsValue);
-      }
-      sublistInfo.getSublists().add(firstPart);
-      sublistInfo.getSublists().add(lastPart);
-      sublistInfo.setMinimizedSum(Math.max(sumItems(firstPart), sumItems(lastPart)));
-    }
+    sublistInfo.getSublists().addAll(sublists2);
+    sublistInfo.setMinimizedSum(calculateMax(sublistInfo.getSublists()));
 
     return sublistInfo;
   }
 
+  private List<List<Integer>> bisectList(List<Integer> inputs, int remainingCount) {
+    List<List<Integer>> bisectedLists = new ArrayList<>();
+    int maxInputsValue = Collections.max(inputs);
+    int indexOfMax = inputs.indexOf(maxInputsValue);
+    int sumOfFirstPart;
+    int sumOfLastPart;
+    List<Integer> firstPart;
+
+    List<Integer> lastPart;
+
+    int bisectedSegments = ((indexOfMax + 1) == inputs.size()) ? 2 : 3;
+    int partitionsToCreate = remainingCount - bisectedSegments;
+
+    firstPart = new ArrayList<>(inputs.subList(0, indexOfMax));
+    lastPart = new ArrayList<>(inputs.subList(indexOfMax + 1, inputs.size()));
+
+    sumOfFirstPart = sumItems(firstPart);
+    sumOfLastPart = sumItems(lastPart);
+
+    //bisect list
+    if (bisectedSegments == 3) {
+      int middlePart = maxInputsValue;
+
+      if (partitionsToCreate == -1) {//Group max with adjacent
+        if (sumOfFirstPart > sumOfLastPart) {
+          lastPart.add(0, maxInputsValue);
+        } else {
+          firstPart.add(maxInputsValue);
+        }
+        bisectedLists.add(firstPart);
+        bisectedLists.add(lastPart);
+      }
+      if (partitionsToCreate == 0) {
+        bisectedLists.add(firstPart);
+        bisectedLists.add(Arrays.asList(middlePart));
+        bisectedLists.add(lastPart);
+      }
+    } else {
+
+      if (partitionsToCreate == 0) {
+        bisectedLists.add(firstPart);
+        bisectedLists.add(Arrays.asList(maxInputsValue));
+      } else if (partitionsToCreate == 1) {
+        bisectedLists.addAll(bisectList(firstPart, 2));
+        bisectedLists.add(Arrays.asList(maxInputsValue));
+      }
+    }
+    return bisectedLists;
+  }
+
   private int sumItems(List<Integer> items) {
     return items.stream().reduce(0, (x, y) -> x + y);
+  }
+
+  private int calculateMax(List<List<Integer>> sublists) {
+    int maxValue = sumItems(sublists.get(0));
+    for (List<Integer> sublist : sublists) {
+      int sum = sumItems(sublist);
+      if (sum > maxValue) {
+        maxValue = sum;
+      }
+    }
+    return maxValue;
   }
 }
