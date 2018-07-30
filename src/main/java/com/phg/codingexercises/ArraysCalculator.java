@@ -67,46 +67,53 @@ public class ArraysCalculator {
     List<List<Integer>> bisectedLists = new ArrayList<>();
     int maxInputsValue = Collections.max(inputs);
     int indexOfMax = inputs.indexOf(maxInputsValue);
-    int sumOfFirstPart;
-    int sumOfLastPart;
-    List<Integer> firstPart;
 
+    List<Integer> firstPart;
     List<Integer> lastPart;
 
-    int bisectedSegments = ((indexOfMax + 1) == inputs.size()) ? 2 : 3;
+    int inputLength = inputs.size();
+    boolean maxIsOnTheBoundary = false;
+
+    if (indexOfMax == 0 || indexOfMax == (inputLength - 1)) {
+      maxIsOnTheBoundary = true;
+    }
+    int bisectedSegments = (maxIsOnTheBoundary) ? 2 : 3;
     int partitionsToCreate = remainingCount - bisectedSegments;
 
-    firstPart = new ArrayList<>(inputs.subList(0, indexOfMax));
-    lastPart = new ArrayList<>(inputs.subList(indexOfMax + 1, inputs.size()));
-
-    sumOfFirstPart = sumItems(firstPart);
-    sumOfLastPart = sumItems(lastPart);
-
-    if (bisectedSegments == 3) {
-      int middlePart = maxInputsValue;
-
+    if (!maxIsOnTheBoundary) {
+      firstPart = new ArrayList<>(inputs.subList(0, indexOfMax));
+      lastPart = new ArrayList<>(inputs.subList(indexOfMax + 1, inputLength));
       if (partitionsToCreate == -1) {//Group max with adjacent
-        if (sumOfFirstPart > sumOfLastPart) {
-          lastPart.add(0, maxInputsValue);
-        } else {
+        if (sumItems(firstPart) < sumItems(lastPart)) {
           firstPart.add(maxInputsValue);
+        } else {
+          lastPart.add(0, maxInputsValue);
         }
         bisectedLists.add(firstPart);
         bisectedLists.add(lastPart);
       }
       if (partitionsToCreate == 0) {
         bisectedLists.add(firstPart);
-        bisectedLists.add(Arrays.asList(middlePart));
+        bisectedLists.add(Arrays.asList(maxInputsValue));
         bisectedLists.add(lastPart);
       }
+
     } else {
+      firstPart = new ArrayList<>(inputs.subList(0, indexOfMax == 0 ? 1 : indexOfMax));
+      lastPart = new ArrayList<>(inputs.subList(indexOfMax == 0 ? indexOfMax + 1 : inputLength - 1, inputLength));
 
       if (partitionsToCreate == 0) {
         bisectedLists.add(firstPart);
-        bisectedLists.add(Arrays.asList(maxInputsValue));
+        bisectedLists.add(lastPart);
+
       } else if (partitionsToCreate == 1) {
-        bisectedLists.addAll(bisectList(firstPart, 2));
-        bisectedLists.add(Arrays.asList(maxInputsValue));
+        if (firstPart.size() > 1) {
+          bisectedLists.addAll(bisectList(firstPart, 2));
+          bisectedLists.add(lastPart);
+        } else {
+          bisectedLists.add(firstPart);
+          bisectedLists.addAll(bisectList(lastPart, 2));
+        }
       }
     }
     return bisectedLists;
