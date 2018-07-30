@@ -83,20 +83,33 @@ public class ArraysCalculator {
     if (!maxIsOnTheBoundary) {
       firstPart = new ArrayList<>(inputs.subList(0, indexOfMax));
       lastPart = new ArrayList<>(inputs.subList(indexOfMax + 1, inputLength));
+
+      int lastPartSum = sumItems(lastPart);
+      int firstPartSum = sumItems(firstPart);
       if (partitionsToCreate == -1) {//Group max with adjacent
-        if (sumItems(firstPart) < sumItems(lastPart)) {
+        if (firstPartSum < lastPartSum) {
           firstPart.add(maxInputsValue);
         } else {
           lastPart.add(0, maxInputsValue);
         }
         bisectedLists.add(firstPart);
         bisectedLists.add(lastPart);
-      }
-      if (partitionsToCreate == 0) {
+      } else if (partitionsToCreate == 0) {
         bisectedLists.add(firstPart);
         bisectedLists.add(Arrays.asList(maxInputsValue));
         bisectedLists.add(lastPart);
+      } else {
+        if (firstPartSum > lastPartSum) {
+          bisectedLists.addAll(bisectList(firstPart, 2));
+          bisectedLists.add(Arrays.asList(maxInputsValue));
+          bisectedLists.add(lastPart);
+        } else {
+          bisectedLists.add(firstPart);
+          bisectedLists.add(Arrays.asList(maxInputsValue));
+          bisectedLists.addAll(bisectList(lastPart, 2));
+        }
       }
+
 
     } else {
       firstPart = new ArrayList<>(inputs.subList(0, indexOfMax == 0 ? 1 : indexOfMax));
