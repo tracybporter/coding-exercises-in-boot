@@ -54,16 +54,77 @@ public class ArraysCalculator {
     }
 
     List<Integer> elements = new ArrayList<>(this.elements);
-    int requestedSublistCount = this.requestedSublistCount;
-    List<List<Integer>> sublists2 = bisectList(elements, requestedSublistCount);
+    List<List<Integer>> sublists = new ArrayList();
+    int remainingCount = requestedSublistCount;
+    sublists.addAll(bisectList(elements));
+    remainingCount = requestedSublistCount - sublists.size();
 
-    sublistInfo.getSublists().addAll(sublists2);
+    while (remainingCount > 0) {
+      int maxSublistSum = -1;
+      int locationOfLargestList = -1;
+      for (int index = 0; index < sublists.size(); index++) {
+        int sum = sumItems(sublists.get(index));
+        if (maxSublistSum < sum && sublists.get(index).size() > 1) {
+          maxSublistSum = sum;
+          locationOfLargestList = index;
+        }
+      }
+      if (locationOfLargestList == -1) {
+        throw new RuntimeException("this should not happen");
+      }
+      List<Integer> largestListToBisect = sublists.get(locationOfLargestList);
+      sublists.remove(locationOfLargestList);
+      sublists.addAll(locationOfLargestList, bisectList(largestListToBisect));
+      remainingCount = requestedSublistCount - sublists.size();
+
+    }
+    sublistInfo.getSublists().addAll(sublists);
     sublistInfo.setMinimizedSum(calculateMax(sublistInfo.getSublists()));
 
     return sublistInfo;
   }
 
-  private List<List<Integer>> bisectList(List<Integer> inputs, int remainingCount) {
+  private List<List<Integer>> bisectList(List<Integer> inputs) {
+    List<List<Integer>> bisectedLists = new ArrayList<>();
+    int maxInputsValue = Collections.max(inputs);
+    int indexOfMax = inputs.indexOf(maxInputsValue);
+
+    List<Integer> firstPart;
+    List<Integer> lastPart;
+
+    int inputLength = inputs.size();
+    boolean maxIsOnTheBoundary = false;
+
+    if (indexOfMax == 0 || indexOfMax == (inputLength - 1)) {
+      maxIsOnTheBoundary = true;
+    }
+
+    if (!maxIsOnTheBoundary) {
+      firstPart = new ArrayList<>(inputs.subList(0, indexOfMax));
+      lastPart = new ArrayList<>(inputs.subList(indexOfMax + 1, inputLength));
+
+      int lastPartSum = sumItems(lastPart);
+      int firstPartSum = sumItems(firstPart);
+      if (firstPartSum < lastPartSum) {
+        firstPart.add(maxInputsValue);
+      } else {
+        lastPart.add(0, maxInputsValue);
+      }
+      bisectedLists.add(firstPart);
+      bisectedLists.add(lastPart);
+
+    } else {
+      firstPart = new ArrayList<>(inputs.subList(0, indexOfMax == 0 ? 1 : indexOfMax));
+      lastPart = new ArrayList<>(inputs.subList(indexOfMax == 0 ? indexOfMax + 1 : inputLength - 1, inputLength));
+
+      bisectedLists.add(firstPart);
+      bisectedLists.add(lastPart);
+
+    }
+    return bisectedLists;
+  }
+
+  private List<List<Integer>> multiCutList(List<Integer> inputs, int remainingCount) {
     List<List<Integer>> bisectedLists = new ArrayList<>();
     int maxInputsValue = Collections.max(inputs);
     int indexOfMax = inputs.indexOf(maxInputsValue);
@@ -100,13 +161,13 @@ public class ArraysCalculator {
         bisectedLists.add(lastPart);
       } else {
         if (firstPartSum > lastPartSum) {
-          bisectedLists.addAll(bisectList(firstPart, 2));
+          bisectedLists.addAll(multiCutList(firstPart, 2));
           bisectedLists.add(Arrays.asList(maxInputsValue));
           bisectedLists.add(lastPart);
         } else {
           bisectedLists.add(firstPart);
           bisectedLists.add(Arrays.asList(maxInputsValue));
-          bisectedLists.addAll(bisectList(lastPart, 2));
+          bisectedLists.addAll(multiCutList(lastPart, 2));
         }
       }
 
@@ -121,11 +182,11 @@ public class ArraysCalculator {
 
       } else if (partitionsToCreate == 1) {
         if (firstPart.size() > 1) {
-          bisectedLists.addAll(bisectList(firstPart, 2));
+          bisectedLists.addAll(multiCutList(firstPart, 2));
           bisectedLists.add(lastPart);
         } else {
           bisectedLists.add(firstPart);
-          bisectedLists.addAll(bisectList(lastPart, 2));
+          bisectedLists.addAll(multiCutList(lastPart, 2));
         }
       }
     }
