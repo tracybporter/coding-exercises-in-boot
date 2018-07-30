@@ -82,7 +82,6 @@ public class ArraysCalculator {
     sumOfFirstPart = sumItems(firstPart);
     sumOfLastPart = sumItems(lastPart);
 
-    //bisect list
     if (bisectedSegments == 3) {
       int middlePart = maxInputsValue;
 
