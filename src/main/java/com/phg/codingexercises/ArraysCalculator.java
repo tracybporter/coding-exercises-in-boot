@@ -122,6 +122,13 @@ public class ArraysCalculator {
           }
         }
       }
+      if (inputLength > 3 && indexOfMax == (inputLength - 1)) {
+        for (int index = inputLength - 2; index > 0; index--) {
+          if (sumItems(inputs.subList(0, index)) >= sumItems(inputs.subList(index, inputLength))) {
+            parseIndex = index;
+          }
+        }
+      }
 
       firstPart = new ArrayList<>(inputs.subList(0, parseIndex == 0 ? 1 : parseIndex));
       lastPart = new ArrayList<>(inputs.subList(parseIndex == 0 ? parseIndex + 1 : parseIndex, inputLength));
