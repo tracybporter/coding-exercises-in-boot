@@ -79,7 +79,7 @@ public class ArraysCalculator {
 
     }
     sublistInfo.getSublists().addAll(sublists);
-    sublistInfo.setMinimizedSum(calculateMax(sublistInfo.getSublists()));
+    sublistInfo.setMinimizedSum(calculateMax(sublists));
 
     return sublistInfo;
   }
@@ -114,8 +114,17 @@ public class ArraysCalculator {
       bisectedLists.add(lastPart);
 
     } else {
-      firstPart = new ArrayList<>(inputs.subList(0, indexOfMax == 0 ? 1 : indexOfMax));
-      lastPart = new ArrayList<>(inputs.subList(indexOfMax == 0 ? indexOfMax + 1 : inputLength - 1, inputLength));
+      int parseIndex = indexOfMax;
+      if (inputLength > 3 && indexOfMax == 0) {
+        for (int index = 2; index < inputLength - 1; index++) {
+          if (sumItems(inputs.subList(0, index)) <= sumItems(inputs.subList(index, inputLength))) {
+            parseIndex = index;
+          }
+        }
+      }
+
+      firstPart = new ArrayList<>(inputs.subList(0, parseIndex == 0 ? 1 : parseIndex));
+      lastPart = new ArrayList<>(inputs.subList(parseIndex == 0 ? parseIndex + 1 : parseIndex, inputLength));
 
       bisectedLists.add(firstPart);
       bisectedLists.add(lastPart);
