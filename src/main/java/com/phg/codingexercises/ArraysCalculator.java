@@ -115,17 +115,19 @@ public class ArraysCalculator {
 
     } else {
       int parseIndex = indexOfMax;
-      if (inputLength > 3 && indexOfMax == 0) {
-        for (int index = 2; index < inputLength - 1; index++) {
-          if (sumItems(inputs.subList(0, index)) <= sumItems(inputs.subList(index, inputLength))) {
-            parseIndex = index;
+      if (inputLength > 3 ) {
+        if (indexOfMax == 0) {
+          for (int index = 2; index < inputLength - 1; index++) {
+            if (sumItems(inputs.subList(0, index)) <= sumItems(inputs.subList(index, inputLength))) {
+              parseIndex = index;
+            }
           }
         }
-      }
-      if (inputLength > 3 && indexOfMax == (inputLength - 1)) {
-        for (int index = inputLength - 2; index > 0; index--) {
-          if (sumItems(inputs.subList(0, index)) >= sumItems(inputs.subList(index, inputLength))) {
-            parseIndex = index;
+        if (indexOfMax == (inputLength - 1)) {
+          for (int index = inputLength - 2; index > 0; index--) {
+            if (sumItems(inputs.subList(0, index)) >= sumItems(inputs.subList(index, inputLength))) {
+              parseIndex = index;
+            }
           }
         }
       }
