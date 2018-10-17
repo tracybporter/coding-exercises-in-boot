@@ -20,7 +20,7 @@ class MoneyChangeBboxSpec extends Specification {
     response.data.size() == 1
     List results = response.data.'results'
     results.size() == 1
-    Map changeInfo = results.find { it.type == 'change' && it.input == 0.68 }
+    Map changeInfo = results.find { it.type == 'coinCounts' && it.input == 0.68 }
     changeInfo
     changeInfo.quarters == 2
     changeInfo.dimes == 1

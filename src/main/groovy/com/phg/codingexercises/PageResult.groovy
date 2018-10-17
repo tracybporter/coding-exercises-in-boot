@@ -23,3 +23,12 @@ class GcfLcmResult {
   int greatestCommonFactor
   int leastCommonMultiple
 }
+
+class CoinCountResult {
+  String type = 'coinCounts'
+  BigDecimal input
+  int quarters
+  int dimes
+  int nickels
+  int pennies
+}
