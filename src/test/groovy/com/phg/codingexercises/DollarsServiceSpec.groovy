@@ -1,6 +1,7 @@
 package com.phg.codingexercises
 
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class DollarsServiceSpec extends Specification {
   DollarsService service = new DollarsService()
@@ -17,5 +18,27 @@ class DollarsServiceSpec extends Specification {
     result.results[0].dimes == 0
     result.results[0].nickels == 0
     result.results[0].pennies == 0
+  }
+
+  @Unroll
+  void 'calculates and constructs page results for #amount'() {
+    when:
+    PageResult result = service.calculateCoinCounts(amount)
+
+    then:
+    result.results.size() == 1
+    result.results[0].type == 'coinCounts'
+    result.results[0].input == inputValue
+    result.results[0].quarters == quarters
+    result.results[0].dimes == dimes
+    result.results[0].nickels == nickels
+    result.results[0].pennies == pennies
+
+    where:
+    amount | inputValue | quarters | dimes | nickels | pennies
+    '1'    | 1.00       | 4        | 0     | 0       | 0
+    '1.01' | 1.01       | 4        | 0     | 0       | 1
+    '1.21' | 1.21       | 4        | 2     | 0       | 1
+    '1.15' | 1.15       | 4        | 1     | 1       | 0
   }
 }
