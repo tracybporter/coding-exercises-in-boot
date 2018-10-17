@@ -36,6 +36,9 @@ class DollarsServiceSpec extends Specification {
 
     where:
     amount | inputValue | quarters | dimes | nickels | pennies
+    '.2'   | 0.20       | 0        | 2     | 0       | 0
+    '.05'  | 0.05       | 0        | 0     | 1       | 0
+    '.04'  | 0.04       | 0        | 0     | 0       | 4
     '1'    | 1.00       | 4        | 0     | 0       | 0
     '1.01' | 1.01       | 4        | 0     | 0       | 1
     '1.21' | 1.21       | 4        | 2     | 0       | 1
