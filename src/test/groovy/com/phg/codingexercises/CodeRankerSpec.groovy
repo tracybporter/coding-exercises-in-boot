@@ -27,4 +27,17 @@ class CodeRankerSpec extends Specification {
     then:
     rankings == [2, 1]
   }
+
+  void 'scores more developers'() {
+    given:
+    ScoreCategories aliceScores = new ScoreCategories(clarity: 5, originality: 1, difficulty: 2)
+    ScoreCategories bobScores = new ScoreCategories(clarity: 3, originality: 1, difficulty: 4)
+    ScoreCategories patScores = new ScoreCategories(clarity: 6, originality: 1, difficulty: 1)
+
+    when:
+    List rankings = new CodeRanker().calculateScores([aliceScores, bobScores, patScores])
+
+    then:
+    rankings == [0, 1, 1]
+  }
 }
